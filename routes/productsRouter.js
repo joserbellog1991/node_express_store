@@ -60,4 +60,18 @@ router.get("/",(req,res)=>{
 });
 
 
+
+router.post('/', (req,res)=>{
+
+const productos = req.body;
+
+res.json({
+
+    messege:"create",
+    productos
+
+})
+
+})
+
  module.exports = router;
