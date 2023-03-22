@@ -3,10 +3,12 @@ const app = express();
 const routerApi = require("./routes/index");
 const port = 3000;
 
+
+
+app.use(express.json());
+
 routerApi(app);
 
-
-//get simple
 app.get("/",(req, res)=>{
 
   res.send("Hola Mundo!");

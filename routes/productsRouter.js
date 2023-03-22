@@ -22,7 +22,7 @@ router.get("/",(req,res)=>{
 
  }else {count = 100}
 
- const products=[{size}];
+ const products=[];
 
  for(let i=0;i<count;i++)
  {
@@ -48,13 +48,22 @@ router.get("/",(req,res)=>{
 
   const  {id} = req.params;
 
-  res.json({
+  if(id==999){
+
+    res.status(404).json({
+     messege:"Not Found"
+
+    });
+  }else{
+
+  res.status(201).json({
     id,
     title: "product 3",
     price: "20"
 
 
   });
+}
 
 
 });
@@ -68,10 +77,38 @@ const productos = req.body;
 res.json({
 
     messege:"create",
-    productos
+    data:productos
 
 })
 
-})
+});
+
+
+router.patch("/:id",(req,res)=>{
+
+  const body = req.body;
+  const {id} = req.params;
+
+  res.json({
+    messege:"update",
+    id,
+    data: body
+  });
+});
+
+  router.delete("/:id",(req,res)=>{
+
+
+    const {id} = req.params;
+
+    res.json({
+      messege:"delete",
+      id
+
+    });
+
+
+
+});
 
  module.exports = router;
