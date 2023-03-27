@@ -1,46 +1,17 @@
 const express = require("express");
-const {faker} = require('@faker-js/faker');
+const ProductServices = require("../services/productServices");
 const router = express.Router();
+
+const service = new ProductServices();
 
 router.get("/",(req,res)=>{
 
   let {size} = req.query;
 
- let count = 0;
+service.generate(size);
+  const products = service.find();
 
-  if(size){
-
-   if(!isNaN(size))
-   {
-   count = size;
- }else{
-
-   res.send("Error. Parametro "+size+" no es un número");
-   return false;
-
- }
-
- }else {count = 100}
-
- const products=[];
-
- for(let i=0;i<count;i++)
- {
-
- products.push({
-
-   id: i,
-   name: faker.commerce.productName(),
-   price: parseInt(faker.commerce.price(),10),
-   image: faker.image.imageUrl(),
-   size
-
-
- });
-
- }
-
- res.json( products);
+ res.json(products);
 
  });
 
@@ -48,6 +19,10 @@ router.get("/",(req,res)=>{
 
   const  {id} = req.params;
 
+  const product = service.findOne(id);
+
+  res.json(product);
+/*
   if(id==999){
 
     res.status(404).json({
@@ -63,7 +38,7 @@ router.get("/",(req,res)=>{
 
 
   });
-}
+}*/
 
 
 });
@@ -74,10 +49,12 @@ router.post('/', (req,res)=>{
 
 const productos = req.body;
 
+const products = service.create(productos);
+
 res.json({
 
     messege:"create",
-    data:productos
+    data:products
 
 })
 
