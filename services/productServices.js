@@ -68,6 +68,10 @@ find(){
 
 findOne(id){
 
+  const index = this.products.findIndex(item => item.id === id);
+  if (index === -1) {
+    throw boom.notFound('product not found');
+  }
   if(id==999)
   {
     const messege = {

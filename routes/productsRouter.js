@@ -1,6 +1,8 @@
 const express = require("express");
 const ProductServices = require("../services/productServices");
 const router = express.Router();
+const validatorHandler = require("../middlewares/validator.handler");
+const {createProductSchema, updateProductSchema,getProductSchema} = require("../schemas/product.schema")
 
 const service = new ProductServices();
 
@@ -15,7 +17,9 @@ service.generate(size);
 
  });
 
- router.get("/:id", (req,res)=>{
+ router.get("/:id",
+ validatorHandler(getProductSchema,'params'),
+ (req,res)=>{
 
   const  {id} = req.params;
 
@@ -45,7 +49,9 @@ service.generate(size);
 
 
 
-router.post('/', (req,res)=>{
+router.post('/',
+validatorHandler(createProductSchema,'body'),
+(req,res)=>{
 
 const productos = req.body;
 
@@ -61,7 +67,10 @@ res.json({
 });
 
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:id',
+validatorHandler(getProductSchema,'params'),
+validatorHandler(updateProductSchema,'body'),
+async (req, res, next) => {
   try {
     const { id } = req.params;
     const body = req.body;
