@@ -61,16 +61,16 @@ res.json({
 });
 
 
-router.patch("/:id",(req,res)=>{
+router.patch('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const product = await service.update(id, body);
+    res.json(product);
+  } catch (error) {
+    next(error);
+  }
 
-  const body = req.body;
-  const {id} = req.params;
-
-  res.json({
-    messege:"update",
-    id,
-    data: body
-  });
 });
 
   router.delete("/:id",(req,res)=>{

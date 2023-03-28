@@ -1,4 +1,5 @@
 const {faker} = require('@faker-js/faker');
+const boom = require("@hapi/boom");
 
 class ProductServices {
 
@@ -80,9 +81,17 @@ findOne(id){
 }
 
 
-update(){
-
-
+async update(id, changes) {
+  const index = this.products.findIndex(item => item.id === id);
+  if (index === -1) {
+    throw boom.notFound('product not found');
+  }
+  const product = this.products[index];
+  this.products[index] = {
+    ...product,
+    ...changes
+  };
+  return this.products[index];
 }
 
 delete(){
